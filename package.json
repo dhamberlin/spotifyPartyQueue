@@ -1,0 +1,36 @@
+{
+  "name": "party-queue",
+  "version": "1.0.0",
+  "description": "Allow guests to add songs to a spotify queue via sms",
+  "main": "server/index.js",
+  "scripts": {
+    "start": "node server/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dhamberlin/spotifyPartyQueue.git"
+  },
+  "keywords": [
+    "spotify",
+    "playlist",
+    "sms",
+    "twilio"
+  ],
+  "author": "David Hamberlin",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dhamberlin/spotifyPartyQueue/issues"
+  },
+  "homepage": "https://github.com/dhamberlin/spotifyPartyQueue#readme",
+  "dependencies": {
+    "body-parser": "^1.17.2",
+    "express": "^4.15.3",
+    "express-session": "^1.15.3",
+    "morgan": "^1.8.2",
+    "passport": "^0.3.2",
+    "passport-spotify": "^0.3.1",
+    "path": "^0.12.7",
+    "twilio": "^3.4.0"
+  }
+}
