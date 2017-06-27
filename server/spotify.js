@@ -3,7 +3,7 @@ const request = require('request-promise-native');
 
 const Spotify = {};
 
-let accessToken = 'BQAAKbqchs0d8s4ZCYPL0unL0f_qJDoCnKDiVX40c4zKnq1VzMMs0cxLnCH-ND0NXwEO282ihIY3EOfzjxoSsAuOxEZhv_ED6lh7v9clxjGF1FiU5zFhBt0K6UC40PcUQrie2IrD8qCF21LkqK6yXiKM0xDd5jfblvOlVWwbsihFZxeArzA4sQRvVOZl1g_3Q15J6BD0Db5N32e4XCWr3TGGPwZVRZvsFU0tw5NBHsfjWxJU';
+let accessToken = 'BQA_xW-is1WMqabqZf15sXZrtxb3r4zXa-yT_lCBrIPdyiGOO9JRMaoGaxE7QKUbxBBk39E-MZW9Ae_VB6t2oQbDj28Qj-dFia3HmmCFNmUJtiQ1tcspcfMqAT2Ef8fyXhggYELcibrmAO90Rp-93nL9r9bE94QOaCRyfkrJoHplWYQjMz7oVS0zDHFjF2O3LhEdb39u0Ncnpx7DooqJFnPUsdpFYpu1e1DhA_rM0GZL2paK';
 Spotify.setAccessToken = (token) => {
   accessToken = token;
 }
@@ -18,23 +18,26 @@ Spotify.getTrack = (query) =>
     .then(response => JSON.parse(response))
     .then(response => {
       // console.log(JSON.stringify(response, null, 4))
-      resolve(response.tracks.items[0].uri);
+      resolve(response.tracks.items[0]);
     })
     .catch(err => console.log(err));
   })
 
 
-Spotify.play = (uri) => {
-  const url = 'https://api.spotify.com/v1/me/player/play';
-  const options = {
-    headers: { Authorization: `Bearer ${accessToken}` },
-    body: { uris: [uri] }
-  }
-  options.body = JSON.stringify(options.body);
-  request.put(url, options)
-  .then(res => console.log(res))
-  .catch(err => console.log(err))
-};
+Spotify.play = (track) =>
+  new Promise((resolve, reject) => {
+    console.log(track.artists)
+    const url = 'https://api.spotify.com/v1/me/player/play';
+    const options = {
+      headers: { Authorization: `Bearer ${accessToken}` },
+      body: { uris: [track.uri] }
+    }
+    options.body = JSON.stringify(options.body);
+    request.put(url, options)
+    .then(res => resolve(`Playing '${track.name}' by ${track.artists.map(a => a.name).join(', ')}`))
+    .catch(err => reject(err))
+  })
+
 
 Spotify.addToQueue = (uri) => {
 
