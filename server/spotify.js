@@ -3,7 +3,7 @@ const request = require('request-promise-native');
 
 const Spotify = {};
 
-let accessToken = 'BQA_xW-is1WMqabqZf15sXZrtxb3r4zXa-yT_lCBrIPdyiGOO9JRMaoGaxE7QKUbxBBk39E-MZW9Ae_VB6t2oQbDj28Qj-dFia3HmmCFNmUJtiQ1tcspcfMqAT2Ef8fyXhggYELcibrmAO90Rp-93nL9r9bE94QOaCRyfkrJoHplWYQjMz7oVS0zDHFjF2O3LhEdb39u0Ncnpx7DooqJFnPUsdpFYpu1e1DhA_rM0GZL2paK';
+let accessToken = '';
 Spotify.setAccessToken = (token) => {
   accessToken = token;
 }
