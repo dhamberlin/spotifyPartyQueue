@@ -5,7 +5,7 @@ const express = require('express');
 const session = require('express-session');
 const passport = require('passport');
 
-const seshSecret = process.env.seshSecret || require('../config').seshSecret;
+const seshSecret = process.env.seshSecret ? process.env.seshSecret : require('../config').seshSecret;
 const routes = require('./routes');
 
 const app = express();
