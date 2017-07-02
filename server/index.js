@@ -5,7 +5,7 @@ const express = require('express');
 const session = require('express-session');
 const passport = require('passport');
 
-const config = require('../config');
+const config = process.env || require('../config');
 const routes = require('./routes');
 
 const app = express();
