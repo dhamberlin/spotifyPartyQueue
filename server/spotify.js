@@ -60,7 +60,7 @@ Spotify.getPlaylist = () =>
     const options = { headers: { Authorization: `Bearer ${accessToken}` } };
     options.body = JSON.stringify(options.body);
     request(url, options)
-    .then(data => data.items.map(t => t.track.name))
+    // .then(data => data.items.map(t => t.track.name))
     .then(trackNames => resolve(trackNames))
     .catch(err => console.log('ERROR: ', err))
   })
