@@ -55,7 +55,7 @@ Spotify.addToPlaylist = (uri) => {
 };
 
 Spotify.getPlaylist = () =>
-  new Promise (resolve, reject) => {
+  new Promise ((resolve, reject) => {
     const url = `https://api.spotify.com/v1/me/${userID}/playlists/${playlistID}/tracks`
     const options = { headers: { Authorization: `Bearer ${accessToken}` } };
     options.body = JSON.stringify(options.body);
@@ -63,6 +63,6 @@ Spotify.getPlaylist = () =>
     .then(data => data.items.map(t => t.track.name))
     .then(trackNames => resolve(trackNames))
     .catch(err => console.log('ERROR: ', err))
-  }
+  })
 
 module.exports = Spotify;
