@@ -5,7 +5,7 @@ const express = require('express');
 const session = require('express-session');
 const passport = require('passport');
 
-const config = process.env || require('../config');
+const seshSecret = process.env.seshSecret || require('../config').seshSecret;
 const routes = require('./routes');
 
 const app = express();
@@ -15,7 +15,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 // app.use(express.static(path.join(__dirname, '../public')));
 app.use(session({
-  secret: config.seshSecret,
+  secret: seshSecret,
   resave: false,
   saveUninitialized: false,
 }));
