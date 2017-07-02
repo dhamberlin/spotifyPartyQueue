@@ -8,7 +8,7 @@ routes.get('/', (req, res) => res.send('<a href="/auth">Connect with Spotify</a>
 
 routes.get('/playlist', (req, res) => {
   Spotify.getPlaylist()
-  .then(trackNames => res.send(JSON.stringify(trackNames)));
+  .then(trackNames => res.send(`<pre>${JSON.stringify(trackNames)}</pre>`, null, 4));
 })
 
 ///////////////////
