@@ -46,7 +46,7 @@ Spotify.play = (track) =>
     options.body = JSON.stringify(options.body);
     request.put(url, options)
     .then(res => resolve(`Playing '${track.name}' by ${track.artists.map(a => a.name).join(', ')}`))
-    .catch(err => reject(err))
+    .catch(err => resolve(err))
   })
 
 
