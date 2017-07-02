@@ -17,7 +17,7 @@ routes.get('/playlist', (req, res) => {
 routes.post('/sms', (req, res) => {
   Spotify.getTrack(req.body.Body)
   .then(track => {
-    Spotify.play(track)
+    Spotify.addToPlaylist(track)
     .then(msg => {
       const response = new MessagingResponse();
       response.message(msg);

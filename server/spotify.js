@@ -11,11 +11,12 @@ Spotify.setAccessToken = (token) => {
   accessToken = token;
 }
 
-Spotify.setUserID = (userID) => {
-  userID = userID;
+Spotify.setUserID = (ID) => {
+  userID = ID;
+  console.log('userID: ', userID)
 }
 
-Spotify.setPlaylist = (playlistID) => {
+Spotify.setPlaylist = (ID) => {
   playlistID = playlistID;
 }
 
@@ -46,23 +47,33 @@ Spotify.play = (track) =>
     options.body = JSON.stringify(options.body);
     request.put(url, options)
     .then(res => resolve(`Playing '${track.name}' by ${track.artists.map(a => a.name).join(', ')}`))
+    .catch(err => reject(err))
+  })
+
+
+Spotify.addToPlaylist = (track) =>
+  new Promise ((resolve, reject) => {
+    const url = `https://api.spotify.com/v1/users/${userID}/playlists/${playlistID}/tracks`;
+    const options = {
+      headers: { Authorization: `Bearer ${accessToken}` },
+      body: JSON.stringify({ uris: [track.uri] }),
+    }
+    request.post(url, options)
+    .then(res => resolve(res))
     .catch(err => resolve(err))
   })
 
 
-Spotify.addToPlaylist = (uri) => {
-
-};
-
 Spotify.getPlaylist = () =>
   new Promise ((resolve, reject) => {
-    const url = `https://api.spotify.com/v1/me/${userID}/playlists/${playlistID}/tracks`
+    const url = `https://api.spotify.com/v1/users/${userID}/playlists/${playlistID}/tracks`;
     const options = { headers: { Authorization: `Bearer ${accessToken}` } };
     options.body = JSON.stringify(options.body);
     request(url, options)
-    // .then(data => data.items.map(t => t.track.name))
+    .then(data => JSON.parse(data))
+    .then(data => data.items.map(t => t.track.name))
     .then(trackNames => resolve(trackNames))
-    .catch(err => console.log('ERROR: ', err))
+    .catch(err => reject(err))
   })
 
 module.exports = Spotify;
