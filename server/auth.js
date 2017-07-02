@@ -8,7 +8,7 @@ const Spotify = require('./spotify');
 //   clientSecret: process.env.SPOTIFYSECRET,
 // } : require('../config');
 
-const baseURL = process.env.BASEURL || 'http://localhost:8080';
+const baseURL = process.env.BASEURL //|| 'http://localhost:8080';
 
 passport.use(new SpotifyStrategy({
   clientID: process.env.spotifyID,
@@ -17,8 +17,9 @@ passport.use(new SpotifyStrategy({
 },
   (accessToken, refreshToken, profile, done) => {
     Spotify.setAccessToken(accessToken);
-    profile.accessToken = accessToken;
-    profile.refreshToken = refreshToken;
+    Spotify.setUserID(profile.id);
+    // profile.accessToken = accessToken;
+    // profile.refreshToken = refreshToken;
     done(null, profile)
   }));
 

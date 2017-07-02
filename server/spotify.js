@@ -4,8 +4,19 @@ const request = require('request-promise-native');
 const Spotify = {};
 
 let accessToken = '';
+let playlistID = '6U91AbgdRpMWSOAtuZeqm7';
+let userID = '';
+
 Spotify.setAccessToken = (token) => {
   accessToken = token;
+}
+
+Spotify.setUserID = (userID) => {
+  userID = userID;
+}
+
+Spotify.setPlaylist = (playlistID) => {
+  playlistID = playlistID;
 }
 
 Spotify.getTrack = (query) =>
@@ -39,8 +50,19 @@ Spotify.play = (track) =>
   })
 
 
-Spotify.addToQueue = (uri) => {
+Spotify.addToPlaylist = (uri) => {
 
 };
+
+Spotify.getPlaylist = () =>
+  new Promise (resolve, reject) => {
+    const url = `https://api.spotify.com/v1/me/${userID}/playlists/${playlistID}/tracks`
+    const options = { headers: { Authorization: `Bearer ${accessToken}` } };
+    options.body = JSON.stringify(options.body);
+    request(url, options)
+    .then(data => data.items.map(t => t.track.name))
+    .then(trackNames => resolve(trackNames))
+    .catch(err => console.log('ERROR: ', err))
+  }
 
 module.exports = Spotify;

@@ -6,6 +6,36 @@ const Spotify = require('./spotify');
 
 routes.get('/', (req, res) => res.send('<a href="/auth">Connect with Spotify</a>'))
 
+routes.get('/playlist', (req, res) => {
+  Spotify.getPlaylist()
+  .then(trackNames => res.send(trackNames));
+})
+
+///////////////////
+// Receive texts //
+///////////////////
+routes.post('/sms', (req, res) => {
+  Spotify.getTrack(req.body.Body)
+  .then(track => {
+    Spotify.play(track)
+    .then(msg => {
+      const response = new MessagingResponse();
+      response.message(msg);
+      res.writeHead(200, { 'Content-Type': 'text/xml' });
+      res.end(response.toString());
+    })
+    .catch(err => {
+      const response = new MessagingResponse();
+      response.message(JSON.stringify(track));
+      res.writeHead(200, { 'Content-Type': 'text/xml' });
+      res.end(response.toString());
+    })
+  })
+})
+
+/////////////////
+// Auth Routes //
+/////////////////
 routes.get('/auth', passport.authenticate('spotify',
   { scope: ['playlist-modify-public', 'playlist-modify-private', 'user-read-playback-state', 'user-modify-playback-state'] }));
 
@@ -25,25 +55,6 @@ routes.get('/loggedIn', checkAuth, (req, res) => {
     <a href="/auth/logout">Log out</a>
     <pre>${JSON.stringify(req.user, null, 4)}</pre>`);
 });
-
-routes.post('/sms', (req, res) => {
-  Spotify.getTrack(req.body.Body)
-  .then(track => {
-    Spotify.play(track)
-    .then(msg => {
-      const response = new MessagingResponse();
-      response.message(msg);
-      res.writeHead(200, { 'Content-Type': 'text/xml' });
-      res.end(response.toString());
-    })
-    .catch(err => {
-      const response = new MessagingResponse();
-      response.message(JSON.stringify(track));
-      res.writeHead(200, { 'Content-Type': 'text/xml' });
-      res.end(response.toString());
-    })
-  })
-})
 
 // To send message  unbidden:
 // client.messages.create({
